@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Stop Watch</title>
+</head>
+
+<body>
+    <div class="container my-4">
+        <div class="jumbotron">
+            <h1 class="display-4" id="output">Stop Watch-00:00:00</h1>
+
+            <hr class="my-4">
+            <button class="btn btn-primary btn-lg" id="Start">Start</button>
+            <button class="btn btn-primary btn-lg" id="Stop">Pause</button>
+            <button class="btn btn-primary btn-lg" id="Reset">Reset</button>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script>
+       
+       // declared varibales to hold sec/min/hour value
+        
+        let sec = 0;
+        let min = 0;
+        let hour = 0;
+
+        // declared vars too hold display value(basically for making single digit value to two digit)
+       
+       let dispalysec = 0;
+        let dispalymin = 0;
+        let dispalyhour = 0;
+
+        // declared var to hold the id of the setInterval
+        let begin;
+
+        // function to increment the next value(Bascially logic for stopwatch)
+        
+        function stopwatch() {
+            sec += 1;
+            if (sec / 60 == 1) {
+                min += 1;
+                sec = 0;
+            }
+            if (min / 60 == 1) {
+                min = 0;
+                hour += 1;
+            }
+            
+            // For adding adding zero to when sec/min/hour is one digit number
+            
+            if (sec < 10) {
+                displaysec = "0" + sec.toString();
+            } else {
+                displaysec = sec;
+            }
+            if (min < 10) {
+                displaymin = "0" + min.toString();
+            } else {
+                displaymin = min;
+            }
+            if (hour < 10) {
+                displayhour = "0" + hour.toString();
+            } else {
+                displayhour = hour;
+            }
+
+
+            document.getElementById("output").innerHTML = "Stop Watch- " + displayhour + ":" + displaymin + ":" + displaysec; // display updated time
+        }
+
+        // Events for button start/stop/reset
+        
+        const button = document.querySelectorAll('button') // for disabling the start button when once stopwatch started.
+        
+        let start = document.getElementById("Start");
+        start.addEventListener("click", () => {
+            begin = window.setInterval(stopwatch, 1000);
+            button[0].disabled = true;
+
+        })
+        let stop = document.getElementById("Stop");
+        stop.addEventListener("click", () => {
+            window.clearInterval(begin);
+            button[0].disabled = false;
+        })
+        let reset = document.getElementById("Reset");
+        reset.addEventListener("click", () => {
+            window.clearInterval(begin);
+            button[0].disabled = false;
+            sec = 0;
+            min = 0;
+            hour = 0;
+            document.getElementById("output").innerHTML = "Stop Watch- 00:00:00";
+        })
+    </script>
+
+
+</body>
+
+</html>
